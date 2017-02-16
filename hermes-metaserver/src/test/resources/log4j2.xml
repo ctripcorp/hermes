@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration packages="com.ctrip.hermes.core.utils">
+	<Appenders>
+		<Async name="ASYNC">
+			<!-- <AppenderRef ref="FILE" /> -->
+			<AppenderRef ref="CONSOLE" />
+			<AppenderRef ref="CatErrorAppender" />
+		</Async>
+		<CatErrorAppender name="CatErrorAppender" />
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d %-5p [%t] %c{1.} - %m%n" />
+		</Console>
+
+		<RollingFile name="BIZ" fileName="/opt/logs/hermes-broker/biz.log" filePattern="/opt/logs/hermes-broker/biz-%i.log.gz">
+			<PatternLayout pattern="%m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+
+		<RollingFile name="TRACE" fileName="/opt/logs/hermes-metaserver/hermes-metaserver-trace.log"
+			filePattern="/opt/logs/hermes-metaserver/$${date:yyyy-MM}/hermes-metaserver-trace.%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout pattern="%d %-5p [%t] %c{1.} - %m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+		</RollingFile>
+
+	</Appenders>
+
+	<Loggers>
+		<Logger name="trace" level="INFO" additivity="false">
+			<Appender-ref ref="TRACE" />
+		</Logger>
+
+		<Logger name="biz" level="INFO" additivity="false">
+			<Appender-ref ref="BIZ" />
+		</Logger>
+
+		<Logger name="com.mchange.v2" level="INFO" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="io.netty" level="INFO" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="org.apache.jasper" level="WARN" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="org.mortbay.log" level="WARN" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="org.apache.http" level="WARN" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<!-- to clean output in debugging -->
+		<Logger name="com.ctrip.hermes.core.env" level="WARN" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="com.dianping" level="ERROR" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="org.apache.zookeeper.server" level="FATAL" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="com.ctrip.hermes.metaserver.meta.MetaServerAssignmentHolder" level="DEBUG" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="com.ctrip.hermes.metaserver.consumer.ConsumerAssignmentHolder" level="DEBUG" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="com.ctrip.hermes.metaserver.broker.BrokerAssignmentHolder" level="DEBUG" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Root level="INFO">
+			<Appender-ref ref="ASYNC" />
+		</Root>
+	</Loggers>
+
+</Configuration>  

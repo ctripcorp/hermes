@@ -1,0 +1,509 @@
+{
+  "devMode": false,
+  "endpoints": {
+    "br0": {
+      "host": "127.0.0.1",
+      "id": "br0",
+      "port": 4376,
+      "type": "broker"
+    },
+    "kafka-endpoint": {
+      "id": "kafka-endpoint",
+      "type": "kafka"
+    }
+  },
+  "storages": {
+    "kafka": {
+      "datasources": [
+        {
+          "id": "kafka-producer",
+          "properties": {
+            "bootstrap.servers": {
+              "name": "bootstrap.servers",
+              "value": ""
+            }
+          }
+        },
+        {
+          "id": "kafka-consumer",
+          "properties": {
+            "zookeeper.connect": {
+              "name": "zookeeper.connect",
+              "value": ""
+            },
+            "offsets.storage": {
+              "name": "offsets.storage",
+              "value": "kafka"
+            }
+          }
+        }
+      ],
+      "default": false,
+      "partitions": {},
+      "properties": [],
+      "type": "kafka"
+    },
+    "mysql": {
+      "datasources": [
+        {
+          "id": "ds0",
+          "properties": {
+            "password": {
+              "name": "password",
+              "value": ""
+            },
+            "user": {
+              "name": "user",
+              "value": "root"
+            },
+            "url": {
+              "name": "url",
+              "value": "jdbc:mysql://127.0.0.1/"
+            }
+          }
+        }
+      ],
+      "default": false,
+      "partitions": {},
+      "properties": [
+        {
+          "name": "x",
+          "value": "x"
+        },
+        {
+          "name": "x",
+          "value": "x"
+        }
+      ],
+      "type": "mysql"
+    }
+  },
+  "topics": {
+    "topic1": {
+      "codec": {
+        "properties": [],
+        "type": "json"
+      },
+      "name": "topic1",
+      "partitionCount": 1,
+      "partitions": [
+        {
+          "endpoint": "br0",
+          "id": 0,
+          "readDatasource": "ds0",
+          "writeDatasource": "ds0"
+        }
+      ],
+      "properties": []
+    },
+    "topic2": {
+      "codec": {
+        "properties": [],
+        "type": "json"
+      },
+      "name": "topic2",
+      "partitionCount": 1,
+      "partitions": [
+        {
+          "endpoint": "br0",
+          "id": 0,
+          "readDatasource": "ds0",
+          "writeDatasource": "ds0"
+        }
+      ],
+      "properties": []
+    },
+    "order_new": {
+      "codec": {
+        "properties": [],
+        "type": "json"
+      },
+      "id": 100,
+      "name": "order_new",
+      "partitionCount": 1,
+      "partitions": [
+        {
+          "endpoint": "br0",
+          "id": 0,
+          "readDatasource": "ds0",
+          "writeDatasource": "ds0"
+        }
+      ],
+      "properties": [],
+      "storageType": "mysql"
+    },
+    "Sample.SampleTopic": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "createTime": 1428633944808,
+      "description": "topic for Sample Test",
+      "name": "Sample.SampleTopic",
+      "partitions": [],
+      "properties": [
+        {
+          "name": "partitions",
+          "value": "5"
+        },
+        {
+          "name": "replication-factor",
+          "value": "3"
+        }
+      ],
+      "storageType": "kafka"
+    },
+    "test": {
+      "codec": {
+        "properties": [],
+        "type": "avro"
+      },
+      "createTime": 1428975579229,
+      "name": "test",
+      "partitions": [],
+      "properties": [
+        {}
+      ],
+      "storageType": "kafka"
+    },
+    "kafka.SimpleTopic": {
+      "codec": {
+        "properties": [],
+        "type": "json"
+      },
+      "name": "kafka.SimpleTopic",
+      "partitionCount": 1,
+      "partitions": [
+        {
+          "endpoint": "kafka-endpoint",
+          "id": 0,
+          "readDatasource": "kafka-consumer",
+          "writeDatasource": "kafka-producer"
+        }
+      ],
+      "properties": [],
+      "storageType": "kafka"
+    },
+    "Sample.SampleTopic_3ae1a967-5d2e-4f11-87d5-fe0839c24c34": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "createTime": 1428993735343,
+      "description": "topic for Sample Test",
+      "name": "Sample.SampleTopic_3ae1a967-5d2e-4f11-87d5-fe0839c24c34",
+      "partitions": [],
+      "properties": [
+        {
+          "name": "partitions",
+          "value": "5"
+        },
+        {
+          "name": "replication-factor",
+          "value": "3"
+        }
+      ],
+      "storageType": "kafka"
+    },
+    "kafka.AvroTopic": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "description": "topic for Avro Test",
+      "id": 101,
+      "lastModifiedTime": 1428993979794,
+      "name": "kafka.AvroTopic",
+      "partitionCount": 1,
+      "partitions": [
+        {
+          "endpoint": "kafka-endpoint",
+          "id": 0,
+          "readDatasource": "kafka-consumer",
+          "writeDatasource": "kafka-producer"
+        }
+      ],
+      "properties": [
+        {
+          "name": "replication-factor",
+          "value": "3"
+        },
+        {
+          "name": "partitions",
+          "value": "5"
+        }
+      ],
+      "schemaId": 22,
+      "status": "valid",
+      "storageType": "kafka"
+    },
+    "antibot2": {
+      "codec": {
+        "properties": [],
+        "type": "avro"
+      },
+      "createTime": 1428978424152,
+      "name": "antibot2",
+      "partitions": [],
+      "properties": [
+        {}
+      ],
+      "storageType": "kafka"
+    },
+    "Sample.SampleTopic_4239496f-1afb-46f7-ab14-98ea83d4b2f5": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "createTime": 1428993786226,
+      "description": "topic for Sample Test",
+      "name": "Sample.SampleTopic_4239496f-1afb-46f7-ab14-98ea83d4b2f5",
+      "partitions": [],
+      "properties": [
+        {
+          "name": "partitions",
+          "value": "5"
+        },
+        {
+          "name": "replication-factor",
+          "value": "3"
+        }
+      ],
+      "storageType": "kafka"
+    },
+    "antibot1": {
+      "codec": {
+        "properties": [],
+        "type": "avro"
+      },
+      "createTime": 1428978313950,
+      "name": "antibot1",
+      "partitions": [],
+      "properties": [
+        {}
+      ],
+      "storageType": "kafka"
+    },
+    "Sample.SampleTopic_e41844c6-d9d3-4a2d-990d-a768d1d53649": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "createTime": 1428993588851,
+      "description": "topic for Sample Test",
+      "name": "Sample.SampleTopic_e41844c6-d9d3-4a2d-990d-a768d1d53649",
+      "partitions": [],
+      "properties": [
+        {
+          "name": "partitions",
+          "value": "5"
+        },
+        {
+          "name": "replication-factor",
+          "value": "3"
+        }
+      ],
+      "storageType": "kafka"
+    },
+    "test2": {
+      "codec": {
+        "properties": [],
+        "type": "json"
+      },
+      "createTime": 1428976535184,
+      "name": "test2",
+      "partitions": [],
+      "properties": [
+        {}
+      ],
+      "storageType": "mysql"
+    },
+    "Sample.SampleTopic_426b0345-569b-49b1-b2f4-c27a057db599": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "createTime": 1428906474784,
+      "description": "topic for Sample Test",
+      "name": "Sample.SampleTopic_426b0345-569b-49b1-b2f4-c27a057db599",
+      "partitions": [],
+      "properties": [
+        {
+          "name": "partitions",
+          "value": "5"
+        },
+        {
+          "name": "replication-factor",
+          "value": "3"
+        }
+      ],
+      "storageType": "kafka"
+    },
+    "Sample.SampleTopic_62dbda8b-0fc9-45af-838a-086930bbef69": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "createTime": 1428904527773,
+      "description": "topic for Sample Test",
+      "name": "Sample.SampleTopic_62dbda8b-0fc9-45af-838a-086930bbef69",
+      "partitions": [],
+      "properties": [
+        {
+          "name": "partitions",
+          "value": "5"
+        },
+        {
+          "name": "replication-factor",
+          "value": "3"
+        }
+      ],
+      "storageType": "kafka"
+    },
+    "topic": {
+      "codec": {
+        "properties": [],
+        "type": "json"
+      },
+      "name": "topic",
+      "partitionCount": 1,
+      "partitions": [
+        {
+          "endpoint": "br0",
+          "id": 0,
+          "readDatasource": "ds0",
+          "writeDatasource": "ds0"
+        }
+      ],
+      "properties": []
+    },
+    "Sample.SampleTopic_4057b352-4fba-403d-a354-54e7e495d7b5": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "createTime": 1428656097972,
+      "description": "topic for Sample Test",
+      "name": "Sample.SampleTopic_4057b352-4fba-403d-a354-54e7e495d7b5",
+      "partitions": [],
+      "properties": [
+        {
+          "name": "partitions",
+          "value": "5"
+        },
+        {
+          "name": "replication-factor",
+          "value": "3"
+        }
+      ],
+      "storageType": "kafka"
+    },
+    "Sample.SampleTopic_2450b043-89bc-438e-b786-5e6fcf6fbdba": {
+      "codec": {
+        "properties": [
+          {
+            "name": "schema.registry.url",
+            "value": ""
+          }
+        ],
+        "type": "avro"
+      },
+      "createTime": 1428904557432,
+      "description": "topic for Sample Test",
+      "name": "Sample.SampleTopic_2450b043-89bc-438e-b786-5e6fcf6fbdba",
+      "partitions": [],
+      "properties": [
+        {
+          "name": "partitions",
+          "value": "5"
+        },
+        {
+          "name": "replication-factor",
+          "value": "3"
+        }
+      ],
+      "storageType": "kafka"
+    },
+    "ubt3": {
+      "codec": {
+        "properties": [],
+        "type": "avro"
+      },
+      "createTime": 1428978460505,
+      "name": "ubt3",
+      "partitions": [],
+      "properties": [
+        {}
+      ],
+      "storageType": "kafka"
+    },
+    "ubt1": {
+      "codec": {
+        "properties": [],
+        "type": "avro"
+      },
+      "createTime": 1428977430156,
+      "name": "ubt1",
+      "partitions": [],
+      "properties": [
+        {},
+        {}
+      ],
+      "storageType": "kafka"
+    },
+    "ubt2": {
+      "codec": {
+        "properties": [],
+        "type": "avro"
+      },
+      "createTime": 1428978443290,
+      "name": "ubt2",
+      "partitions": [],
+      "properties": [
+        {}
+      ],
+      "storageType": "kafka"
+    }
+  },
+  "version": 18
+}

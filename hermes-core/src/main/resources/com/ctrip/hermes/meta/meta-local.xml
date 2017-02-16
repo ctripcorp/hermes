@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<meta dev-mode='false' version='1' id='1'>
+
+	<endpoint id='br0' type="broker" host="127.0.0.1" port="4376" group="default" />
+
+	<endpoint id='kafka-endpoint' type="kafka" />
+
+	<topic name='order_new' id='100' partition-count='2' storage-type='mysql' codec-type="json"
+		consumer-retry-policy="1:[2,4,6]" endpoint-type="broker" ack-timeout-seconds="3" broker-group="hotel">
+		<consumer-group id='1' name="group1" app-ids="1" retry-policy="1:[3,6,9,15]" ack-timeout-seconds="5" />
+		<consumer-group id='2' name="group2" app-ids="2" retry-policy="1:[5,10]" ack-timeout-seconds="6"
+			ordered-consume="false" />
+		<consumer-group id='3' name="group3" app-ids="3" />
+		<partition id='0' read-datasource='ds0' write-datasource='ds0' endpoint='br0' />
+		<partition id='1' read-datasource='ds0' write-datasource='ds0' endpoint='br0' />
+	</topic>
+
+	<topic name='cmessage_fws' id='900777' partition-count='1' storage-type='mysql' codec-type="json"
+		consumer-retry-policy="1:[2,4,6]" endpoint-type="broker" ack-timeout-seconds="3">
+		<consumer-group id='1' name="group1" app-ids="1" retry-policy="1:[3,6,9,15]" ack-timeout-seconds="4" />
+		<consumer-group id='2' name="group2" app-ids="2" retry-policy="1:[5,10]" ack-timeout-seconds="5" />
+		<consumer-group id='3' name="group3" app-ids="3" />
+		<partition id='0' read-datasource='ds0' write-datasource='ds0' endpoint='br0' />
+	</topic>
+
+	<topic name='local_dev' id='99' partition-count='1' storage-type='mysql' codec-type="json" consumer-retry-policy="1:[2,4,6]"
+		endpoint-type="broker" ack-timeout-seconds="3">
+		<consumer-group id='1' name="group1" app-ids="1" retry-policy="1:[3,6,9,15]" />
+		<consumer-group id='2' name="group2" app-ids="2" retry-policy="1:[5,10]" />
+		<consumer-group id='3' name="group3" app-ids="3" />
+		<partition id='0' read-datasource='ds0' write-datasource='ds0' endpoint='br0' />
+	</topic>
+
+	<topic name='topic' partition-count='1' codec-type="json" endpoint-type="broker">
+		<partition id='0' read-datasource='ds0' write-datasource='ds0' endpoint='br0' />
+	</topic>
+
+	<topic name='topic1' partition-count='1' codec-type="json" endpoint-type="broker">
+		<partition id='0' read-datasource='ds0' write-datasource='ds0' endpoint='br0' />
+	</topic>
+
+	<topic name='topic2' partition-count='1' codec-type="json" endpoint-type="broker">
+		<partition id='0' read-datasource='ds0' write-datasource='ds0' endpoint='br0' />
+	</topic>
+
+	<topic name='kafka.SimpleAvroTopic' partition-count='1' storage-type='kafka' id='101' description='topic for Avro Test'
+		status='valid' create-time='2015-01-01 00:00:00' last-modified-time='2015-04-01 00:00:00' schema-name='ClickEvent'
+		codec-type="avro" endpoint-type="kafka">
+		<property name='replication-factor' value='3' />
+		<property name='partitions' value='5' />
+		<partition id='0' read-datasource='kafka-consumer' write-datasource='kafka-producer' endpoint='kafka-endpoint' />
+	</topic>
+
+	<topic name='kafka.SimpleTextTopic' partition-count='1' storage-type='kafka' id='102' description='topic for OneBox Test'
+		status='valid' create-time='2015-05-01 00:00:00' last-modified-time='2015-04-01 00:00:00' codec-type="json" create-by="liuym"
+		endpoint-type="kafka">
+		<property name='replication-factor' value='2' />
+		<property name='partitions' value='3' />
+		<partition id='0' read-datasource='kafka-consumer' write-datasource='kafka-producer' endpoint='kafka-endpoint' />
+	</topic>
+
+	<topic name='kafka.PerfTest' partition-count='1' storage-type='kafka' id='103' description='topic for Performance Test'
+		status='valid' create-time='2015-05-01 00:00:00' last-modified-time='2015-04-01 00:00:00' codec-type="json" create-by="liuym"
+		endpoint-type="broker">
+		<property name='replication-factor' value='2' />
+		<property name='partitions' value='3' />
+		<partition id='0' read-datasource='kafka-consumer' write-datasource='kafka-producer' endpoint='br0' />
+	</topic>
+
+	<codec type="json" />
+	<codec type="cmessaging" />
+	<codec type="avro">
+		<property name="schema.registry.url" value="" />
+		<property name="x" value="y" />
+	</codec>
+
+	<storage type='mysql'>
+		<property name="x" value="x" />
+		<property name="x" value="x" />
+		<datasource id='ds0'>
+			<!--Local Machine -->
+
+			<property name='url' value='jdbc:mysql://127.0.0.1/hermes' />
+			<property name='user' value='' />
+			<property name='password' value='' />
+		</datasource>
+	</storage>
+
+	<storage type='kafka'>
+		<datasource id='kafka-producer'>
+			<property name='bootstrap.servers' value='' />
+		</datasource>
+		<datasource id='kafka-consumer'>
+			<property name='zookeeper.connect' value='' />
+			<property name='bootstrap.servers' value='' />
+			<property name='offsets.storage' value='kafka' />
+		</datasource>
+	</storage>
+	<server id='meta1' host='127.0.0.1' port='1248'>
+	</server>
+
+</meta>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<cmessaging version="1">
+	<exchange name="global.log" hermes-topic="ibu.global.log">
+		<produce state="gray">
+			<produce-group id="app1" state="gray">
+				<node ip="" />
+				<node ip="" />
+			</produce-group>
+			<produce-group id="app2" state="open" />
+		</produce>
+		<consume state="gray">
+			<consume-group id="ibu.global.log.seolinkcache/sha1"
+				state="gray" hermes-consumer-group="ibu.global.log.seolinkcache">
+				<node ip="" />
+				<node ip="" />
+			</consume-group>
+			<consume-group id="ibu.global.log.access" state="open" />
+		</consume>
+	</exchange>
+
+	<exchange name="ex2" hermes-topic="bu.ex2" />
+</cmessaging>

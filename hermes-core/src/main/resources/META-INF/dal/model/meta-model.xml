@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model model-package="com.ctrip.hermes.meta" enable-base-visitor2='true' enable-sax-parser="true">
+	<entity name="meta" root="true">
+		<entity-ref name="topic" type="map" names="topics" />
+		<entity-ref name="endpoint" type="map" names="endpoints" />
+		<entity-ref name="storage" type="map" names="storages" />
+		<entity-ref name="codec" type="map" names="codecs" />
+		<entity-ref name="app" type="map" names="apps" />
+		<entity-ref name="server" type="map" names="servers" />
+		<entity-ref name="idc" type="map" names="idcs" />
+		<entity-ref name="zookeeper-ensemble" type="map" names="zookeeper-ensembles" />
+		<attribute name="version" value-type="long" />
+		<attribute name="id" value-type="long" />
+	</entity>
+
+	<entity name="zookeeper-ensemble">
+		<attribute name="id" value-type="String" key="true"/>
+		<attribute name="idc" value-type="String" />
+		<attribute name="connection-string" value-type="String" />
+		<attribute name="primary" value-type="boolean" default-value="false"/>
+	</entity>
+
+	<entity name="consumer-group">
+		<attribute name="id" value-type="int" />
+		<attribute name="name" value-type="String" key="true" />
+		<attribute name="retry-policy" value-type="String" />
+		<attribute name="ordered-consume" value-type="boolean" default-value="true" />
+		<attribute name="enabled" value-type="boolean" default-value="true" />
+		<attribute name="idc-policy" value-type="String" default-value="primary"/>
+	</entity>
+
+	<entity name="producer">
+		<attribute name="app-id" value-type="long" />
+	</entity>
+
+	<entity name="app">
+		<attribute name="id" value-type="long" key="true" />
+	</entity>
+
+	<entity name="endpoint">
+		<attribute name="id" key='true' />
+		<attribute name="group" value-type="String" default-value="default" />
+		<attribute name="enabled" value-type="boolean" default-value="true" />
+		<snippet lang='java'><![CDATA[
+			public final static String LOCAL = "local";
+			public final static String BROKER = "broker";
+			public final static String TRANSACTION = "transaction";
+			public final static String KAFKA ="kafka";
+			]]>
+		</snippet>
+	</entity>
+
+	<entity name="idc">
+		<attribute name="id" value-type="String" key="true" />
+		<attribute name="enabled" value-type="boolean" default-value="true" />
+	</entity>
+
+	<entity name="storage">
+		<attribute name="type" key='true' />
+		<entity-ref name="partition" type="map" names="partitions" />
+		<snippet lang='java'><![CDATA[
+			public final static String MEMORY = "memory";
+			public final static String KAFKA = "kafka";
+			public final static String MYSQL = "mysql";
+			]]>
+		</snippet>
+	</entity>
+	<entity name="topic">
+		<attribute name="name" key='true' />
+		<attribute name="id" value-type="long" />
+		<attribute name="schema-id" value-type="long" />
+		<attribute name="endpoint-type" value-type="String" default-value="broker" />
+		<attribute name="consumer-retry-policy" default-value="3:[3,3000]" />
+		<attribute name="ack-timeout-seconds" value-type="int" default-value="5" />
+		<attribute name="priority-message-enabled" value-type="boolean" default-value="true" />
+		<attribute name="broker-group" value-type="String" default-value="default" />
+		<attribute name="idc-policy" value-type="String" default-value="primary"/>
+		<entity-ref name="consumer-group" type="list" names="consumer-groups" />
+
+		<snippet lang='java'><![CDATA[
+			public boolean isConnectCatTransactions() {
+				Property p = findProperty("connect-cat-transactions");
+				return p == null || "true".equals(p.getValue());
+			}
+			]]>
+		</snippet>
+
+	</entity>
+	<entity name="codec">
+		<attribute name="type" value-type="String" key='true' />
+		<entity-ref name="property" type="map" names="properties" />
+		<snippet lang='java'><![CDATA[
+			public final static String JSON = "json";
+			public final static String AVRO = "avro";
+			public final static String GZIP = "gzip";
+			public final static String DEFLATER = "deflater";
+			public final static String CMESSAGING = "cmessaging";
+			]]>
+		</snippet>
+	</entity>
+	<entity name="partition">
+		<attribute name="id" value-type="int" key='true' />
+	</entity>
+	<entity name="datasource">
+		<entity-ref name="property" type="map" names="properties" />
+	</entity>
+	<entity name="property">
+		<attribute name="name" key='true' />
+	</entity>
+	<entity name="server">
+		<attribute name="id" value-type="String" key="true" />
+		<attribute name="host" value-type="String" />
+		<attribute name="port" value-type="int" />
+		<attribute name="enabled" value-type="boolean" default-value="true" />
+		<attribute name="idc" value-type="String" />
+	</entity>
+</model>
+

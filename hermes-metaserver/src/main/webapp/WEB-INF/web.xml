@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
+	<listener>
+		<display-name>cat-listener</display-name>
+		<listener-class>com.dianping.cat.servlet.CatListener</listener-class>
+	</listener>
+	<listener>
+		<display-name>cluster-info-listener</display-name>
+		<listener-class>com.ctrip.hermes.metaserver.cluster.ClusterStateServletListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.ctrip.hermes.metaserver.rest.commons.RestApplication</param-value>
+		</init-param>
+
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey REST Service</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<filter-name>cat-filter</filter-name>
+		<filter-class>com.dianping.cat.servlet.CatFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>cat-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
+</web-app>

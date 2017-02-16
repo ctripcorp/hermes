@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities do-package="com.ctrip.hermes.metaservice.model" gen="true">
+	<entity name="meta">
+		<member name="version" value-type="Long" />
+		<query-defs>
+			<query name="findLatest" type="SELECT">
+				<statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        ORDER BY <FIELD name='id'/> DESC LIMIT 1]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="zookeeper-ensemble" alias="ze">
+		<query-defs>
+			<query name="list" type="SELECT" multiple="true">
+				<statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        ORDER BY <FIELD name='id'/> ASC]]></statement>
+			</query>
+			<query name="find-by-id" type="SELECT" multiple="true">
+				<param name="id" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${id}]]></statement>
+			</query>
+			<query name="find-primary" type="SELECT" multiple="true">
+				<statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        WHERE <FIELD name='primary'/> = TRUE]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="broker-lease" table="broker_lease" alias="bl">
+		<var name="from" value-type="Date" />
+		<var name="ip" value-type="String" />
+		<updatesets>
+			<updateset name="LEASES" all="false">
+				<member name="leases" />
+				<member name="metaserver" />
+			</updateset>
+		</updatesets>
+		<query-defs>
+			<query name="insert-leases" type="INSERT" batch='true'>
+				<statement><![CDATA[INSERT INTO <TABLE/> (<FIELDS/>)
+        		VALUES(<VALUES/>) 
+        		ON DUPLICATE KEY UPDATE
+        		leases=VALUES(leases),
+        		metaserver=VALUES(metaserver)
+        		]]>
+				</statement>
+			</query>
+			<query name="update-leases" type="UPDATE" batch='true'>
+				<param name="topic" />
+				<param name="partition" />
+				<statement><![CDATA[UPDATE <TABLE/> 
+				SET <FIELDS/>
+        		WHERE <FIELD name='topic'/> = ${topic}
+        		AND <FIELD name='partition'/> = ${partition}
+        		]]>
+				</statement>
+			</query>
+			<query name="list-latest-changes" type="SELECT" multiple="true">
+				<param name="from" />
+				<param name="ip" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        WHERE <FIELD name='data-change-last-time'/> >= ${from} AND <FIELD name='metaserver'/> != ${ip}]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="consumer-lease" table="consumer_lease" alias="cl">
+		<var name="from" value-type="Date" />
+		<var name="ip" value-type="String" />
+		<updatesets>
+			<updateset name="LEASES" all="false">
+				<member name="leases" />
+				<member name="metaserver" />
+			</updateset>
+		</updatesets>
+		<query-defs>
+			<query name="insert-leases" type="INSERT" batch='true'>
+				<statement><![CDATA[INSERT INTO <TABLE/> (<FIELDS/>)
+        		VALUES(<VALUES/>) 
+        		ON DUPLICATE KEY UPDATE
+        		leases=VALUES(leases),
+        		metaserver=VALUES(metaserver)
+        		]]>
+				</statement>
+			</query>
+			<query name="update-leases" type="UPDATE" batch='true'>
+				<param name="topic" />
+				<param name="partition" />
+				<param name="group" />
+				<statement><![CDATA[UPDATE <TABLE/> 
+				SET <FIELDS/>
+        		WHERE <FIELD name='topic'/> = ${topic}
+        		AND <FIELD name='partition'/> = ${partition}
+        		AND <FIELD name='group'/> = ${group}
+        		]]>
+				</statement>
+			</query>
+			<query name="list-latest-changes" type="SELECT" multiple="true">
+				<param name="from" />
+				<param name="ip" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        WHERE <FIELD name='data-change-last-time'/> >= ${from} AND <FIELD name='metaserver'/> != ${ip}]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+</entities>
+

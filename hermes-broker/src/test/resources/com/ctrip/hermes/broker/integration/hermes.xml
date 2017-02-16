@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+  <entity name="dead-letter" table="h2_100_0_dead_letter" alias="dl">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="producer-ip" field="producer_ip" value-type="String" length="15" nullable="false" />
+    <member name="producer-id" field="producer_id" value-type="int" length="10" nullable="false" />
+    <member name="ref-key" field="ref_key" value-type="String" length="100" />
+    <member name="attributes" field="attributes" value-type="byte[]" length="65535" />
+    <member name="codec-type" field="codec_type" value-type="String" length="20" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" insert-expr="NOW()" />
+    <member name="payload" field="payload" value-type="byte[]" length="16777215" nullable="false" />
+    <member name="dead-date" field="dead_date" value-type="Date" nullable="false" />
+    <member name="group-id" field="group_id" value-type="int" length="10" nullable="false" />
+    <member name="priority" field="priority" value-type="int" length="3" nullable="false" />
+    <member name="origin-id" field="origin_id" value-type="long" length="19" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="key" members="ref_key ASC" />
+  </entity>
+  <entity name="message-priority" table="h2_100_0_message_0" alias="mp">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="producer-ip" field="producer_ip" value-type="String" length="15" nullable="false" />
+    <member name="producer-id" field="producer_id" value-type="int" length="10" nullable="false" />
+    <member name="ref-key" field="ref_key" value-type="String" length="100" />
+    <member name="attributes" field="attributes" value-type="byte[]" length="65535" />
+    <member name="codec-type" field="codec_type" value-type="String" length="20" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" insert-expr="NOW()" />
+    <member name="payload" field="payload" value-type="byte[]" length="16777215" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="key" members="ref_key ASC" />
+  </entity>
+  <entity name="message-priority" table="h2_100_0_message_1" alias="mp">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="producer-ip" field="producer_ip" value-type="String" length="15" nullable="false" />
+    <member name="producer-id" field="producer_id" value-type="int" length="10" nullable="false" />
+    <member name="ref-key" field="ref_key" value-type="String" length="100" />
+    <member name="attributes" field="attributes" value-type="byte[]" length="65535" />
+    <member name="codec-type" field="codec_type" value-type="String" length="20" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" insert-expr="NOW()" />
+    <member name="payload" field="payload" value-type="byte[]" length="16777215" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="key" members="ref_key ASC" />
+  </entity>
+  <entity name="message-priority" table="h2_100_1_message_0" alias="mp">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="producer-ip" field="producer_ip" value-type="String" length="15" nullable="false" />
+    <member name="producer-id" field="producer_id" value-type="int" length="10" nullable="false" />
+    <member name="ref-key" field="ref_key" value-type="String" length="100" />
+    <member name="attributes" field="attributes" value-type="byte[]" length="65535" />
+    <member name="codec-type" field="codec_type" value-type="String" length="20" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" insert-expr="NOW()" />
+    <member name="payload" field="payload" value-type="byte[]" length="16777215" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="key" members="ref_key ASC" />
+  </entity>
+  <entity name="message-priority" table="h2_100_1_message_1" alias="mp">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="producer-ip" field="producer_ip" value-type="String" length="15" nullable="false" />
+    <member name="producer-id" field="producer_id" value-type="int" length="10" nullable="false" />
+    <member name="ref-key" field="ref_key" value-type="String" length="100" />
+    <member name="attributes" field="attributes" value-type="byte[]" length="65535" />
+    <member name="codec-type" field="codec_type" value-type="String" length="20" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" insert-expr="NOW()" />
+    <member name="payload" field="payload" value-type="byte[]" length="16777215" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="key" members="ref_key ASC" />
+  </entity>
+  <entity name="offset-message" table="h2_100_0_offset_message" alias="om">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="priority" field="priority" value-type="int" length="3" nullable="false" />
+    <member name="group-id" field="group_id" value-type="int" length="10" nullable="false" />
+    <member name="offset" field="offset" value-type="long" length="19" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" insert-expr="NOW()" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" insert-expr="NOW()" update-expr="NOW()" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="priority_group_id" unique="true" members="priority ASC, group_id ASC" />
+  </entity>
+  <entity name="offset-resend" table="h2_100_0_offset_resend" alias="or">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="group-id" field="group_id" value-type="int" length="10" nullable="false" />
+    <member name="last-schedule-date" field="last_schedule_date" value-type="Date" nullable="false" />
+    <member name="last-id" field="last_id" value-type="long" length="19" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" insert-expr="NOW()" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" insert-expr="NOW()" update-expr="NOW()" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="group" unique="true" members="group_id ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+  </entity>
+  <entity name="resend-group-id" table="h2_100_0_resend_group_id" alias="rgi">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="producer-ip" field="producer_ip" value-type="String" length="15" nullable="false" />
+    <member name="producer-id" field="producer_id" value-type="int" length="10" nullable="false" />
+    <member name="ref-key" field="ref_key" value-type="String" length="100" />
+    <member name="attributes" field="attributes" value-type="byte[]" length="65535" />
+    <member name="codec-type" field="codec_type" value-type="String" length="20" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" insert-expr="NOW()" />
+    <member name="payload" field="payload" value-type="byte[]" length="16777215" nullable="false" />
+    <member name="schedule-date" field="schedule_date" value-type="Date" nullable="false" />
+    <member name="remaining-retries" field="remaining_retries" value-type="int" length="3" nullable="false" />
+    <member name="priority" field="priority" value-type="int" length="3" nullable="false" />
+    <member name="origin-id" field="origin_id" value-type="long" length="19" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="key" members="ref_key ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+  </entity>
+</entities>
+

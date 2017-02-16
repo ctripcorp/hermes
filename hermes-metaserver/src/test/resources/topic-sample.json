@@ -1,0 +1,45 @@
+{
+  "name": "Sample.SampleTopic",
+  "storageType": "kafka",
+  "description": "topic for Sample Test",
+  "properties": [
+    {
+      "name": "partitions",
+      "value": "5"
+    },
+    {
+      "name": "replication-factor",
+      "value": "3"
+    },
+    {
+      "name": "retention.ms",
+      "value": "10080"
+    },
+    {
+      "name": "retention.bytes",
+      "value": "10737418240"
+    },
+    {
+      "name": "trafficKBPerSecond",
+      "value": "100"
+    },
+    {
+      "name": "trafficIncreasePerMonth",
+      "value": "2"
+    }
+  ],
+  "codecType": "json",
+  "retryPolicy": {
+    "retryTimes": 3
+  },
+  "partitionCount": 1,
+  "createBy": "who",
+  "partitions": [
+    {
+      "endpoint": "kafka-endpoint",
+      "id": 0,
+      "readDatasource": "kafka-consumer",
+      "writeDatasource": "kafka-producer"
+    }
+  ]
+}

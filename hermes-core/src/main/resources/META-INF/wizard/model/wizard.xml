@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizard package="com.ctrip.hermes">
+   <model package="com.ctrip.hermes.meta" name="meta">
+      <sample-model>src/test/resources/com/ctrip/hermes/meta/meta.xml</sample-model>
+   </model>
+   <model package="com.ctrip.hermes.cmessaging" name="cmessaging">
+      <sample-model>src/test/resources/com/ctrip/hermes/core/cmessaging/cmessaging.xml</sample-model>
+   </model>
+</wizard>

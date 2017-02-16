@@ -1,0 +1,30 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.ctrip.hermes.env.ClientEnvironment</role>
+			<implementation>com.ctrip.hermes.env.provider.DefaultClientEnvironment</implementation>
+			<requirements>
+				<requirement>
+					<role>com.ctrip.hermes.env.provider.EnvProvider</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.ctrip.hermes.env.provider.EnvProvider</role>
+			<implementation>com.ctrip.hermes.env.provider.DefaultEnvProvider</implementation>
+		</component>
+		<component>
+			<role>com.ctrip.hermes.env.ManualConfigProvider</role>
+			<implementation>com.ctrip.hermes.env.provider.DefaultManualConfigProvider</implementation>
+		</component>
+		<component>
+			<role>com.ctrip.hermes.env.config.broker.BrokerConfigProvider</role>
+			<implementation>com.ctrip.hermes.env.provider.DefaultBrokerConfigProvider</implementation>
+			<requirements>
+				<requirement>
+					<role>com.ctrip.hermes.env.ClientEnvironment</role>
+				</requirement>
+			</requirements>
+		</component>
+	</components>
+</plexus>

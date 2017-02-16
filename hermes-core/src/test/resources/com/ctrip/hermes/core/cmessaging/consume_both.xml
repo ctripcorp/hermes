@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<cmessaging version="1">
+	<exchange name="ex1" hermes-topic="hermes-ex1">
+		<produce state="gray">
+			<produce-group id="pid0" state="close" />
+			<produce-group id="pid1" state="gray">
+				<node ip="2.2.2.1" />
+				<node ip="2.2.2.2" />
+			</produce-group>
+			<produce-group id="pid2" state="open" />
+		</produce>
+		<consume state="gray">
+			<consume-group id="cid0" state="close"
+				hermes-consumer-group="hermes-cid0" />
+			<consume-group id="cid1" state="gray"
+				hermes-consumer-group="hermes-cid1">
+				<node ip="1.1.1.1" />
+				<node ip="1.1.1.2" />
+			</consume-group>
+			<consume-group id="cid2" state="bothopen" />
+			<consume-group id="cid3" state="hermesonly" />
+		</consume>
+	</exchange>
+
+	<exchange name="ex2" hermes-topic="hermes-ex2">
+		<consume state="close">
+		</consume>
+		<produce state="close">
+		</produce>
+	</exchange>
+
+	<exchange name="ex3" hermes-topic="hermes-ex3">
+		<consume state="bothopen">
+		</consume>
+		<produce state="open">
+		</produce>
+	</exchange>
+
+	<exchange name="ex4" hermes-topic="hermes-ex4">
+		<consume state="hermesonly">
+		</consume>
+		<produce state="open">
+		</produce>
+	</exchange>
+</cmessaging>

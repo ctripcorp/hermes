@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model>
+  <entity name="meta" root="true">
+    <attribute name="version" value-type="int" />
+    <entity-ref name="topic" type="list" names="topics" />
+    <entity-ref name="app" type="list" names="apps" />
+    <entity-ref name="codec" type="list" names="codecs" />
+    <entity-ref name="endpoint" type="list" names="endpoints" />
+    <entity-ref name="idc" type="list" names="idcs" />
+    <entity-ref name="server" type="list" names="servers" />
+    <entity-ref name="storage" type="list" names="storages" />
+    <entity-ref name="zookeeper-ensemble" type="list" names="zookeeper-ensembles" />
+  </entity>
+  <entity name="topic">
+    <attribute name="name" value-type="String" />
+    <attribute name="id" value-type="int" />
+    <attribute name="partition-count" value-type="int" />
+    <attribute name="storage-type" value-type="String" />
+    <attribute name="status" value-type="String" />
+    <attribute name="create-time" value-type="Date" format="yyyy-MM-dd HH:mm:ss" />
+    <attribute name="last-modified-time" value-type="Date" format="yyyy-MM-dd HH:mm:ss" />
+    <attribute name="schema-id" value-type="int" />
+    <attribute name="consumer-retry-policy" value-type="String" />
+    <attribute name="endpoint-type" value-type="String" />
+    <attribute name="ack-timeout-seconds" value-type="int" />
+    <attribute name="priority-message-enabled" value-type="boolean" />
+    <attribute name="broker-group" value-type="String" />
+    <attribute name="idc-policy" value-type="String" />
+    <attribute name="codec-type" value-type="String" />
+    <entity-ref name="consumer-group" type="list" names="consumer-groups" />
+    <entity-ref name="producer" type="list" names="producers" />
+    <entity-ref name="partition" type="list" names="partitions" />
+    <entity-ref name="property" type="list" names="properties" />
+  </entity>
+  <entity name="consumer-group">
+    <attribute name="id" value-type="int" />
+    <attribute name="name" value-type="String" />
+    <attribute name="app-ids" value-type="String" />
+    <attribute name="retry-policy" value-type="String" />
+    <attribute name="ack-timeout-seconds" value-type="int" />
+    <attribute name="ordered-consume" value-type="boolean" />
+    <attribute name="enabled" value-type="boolean" />
+    <attribute name="idc-policy" value-type="String" />
+  </entity>
+  <entity name="producer">
+    <attribute name="app-id" value-type="int" />
+  </entity>
+  <entity name="partition">
+    <attribute name="id" value-type="int" />
+    <attribute name="read-datasource" value-type="String" />
+    <attribute name="write-datasource" value-type="String" />
+    <attribute name="endpoint" value-type="String" />
+  </entity>
+  <entity name="property">
+    <attribute name="name" value-type="String" />
+    <attribute name="value" value-type="String" />
+  </entity>
+  <entity name="app">
+    <attribute name="id" value-type="int" />
+  </entity>
+  <entity name="codec">
+    <attribute name="type" value-type="String" />
+    <entity-ref name="property" type="list" names="properties" />
+  </entity>
+  <entity name="endpoint">
+    <attribute name="id" value-type="String" />
+    <attribute name="type" value-type="String" />
+    <attribute name="host" value-type="String" />
+    <attribute name="port" value-type="int" />
+    <attribute name="group" value-type="String" />
+    <attribute name="idc" value-type="String" />
+    <attribute name="enabled" value-type="boolean" />
+  </entity>
+  <entity name="idc">
+    <attribute name="id" value-type="String" />
+    <attribute name="primary" value-type="boolean" />
+    <attribute name="enabled" value-type="boolean" />
+  </entity>
+  <entity name="server">
+    <attribute name="id" value-type="String" />
+    <attribute name="host" value-type="String" />
+    <attribute name="port" value-type="int" />
+    <attribute name="enabled" value-type="boolean" />
+    <attribute name="idc" value-type="String" />
+  </entity>
+  <entity name="storage">
+    <attribute name="type" value-type="String" />
+    <attribute name="default" value-type="boolean" />
+    <entity-ref name="property" type="list" names="properties" />
+    <entity-ref name="datasource" type="list" names="datasources" />
+  </entity>
+  <entity name="datasource">
+    <attribute name="id" value-type="String" />
+    <entity-ref name="property" type="list" names="properties" />
+  </entity>
+  <entity name="zookeeper-ensemble">
+    <attribute name="id" value-type="String" />
+    <attribute name="idc" value-type="String" />
+    <attribute name="connection-string" value-type="String" />
+    <attribute name="primary" value-type="boolean" />
+  </entity>
+</model>
+

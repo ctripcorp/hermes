@@ -1,0 +1,9 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.ctrip.hermes.consumer.Consumer</role>
+			<role-hint>0a4c975e-30c2-4c45-bfbb-690ac1a0f6ee</role-hint>
+			<implementation>com.ctrip.hermes.example.demo.OrderNewConsumer1</implementation>
+		</component>
+	</components>
+</plexus>

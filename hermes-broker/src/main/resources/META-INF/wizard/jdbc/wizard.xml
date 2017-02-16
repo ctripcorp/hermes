@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizard package="com.ctrip.hermes.broker">
+   <jdbc package="com.ctrip.hermes.broker.dal" name="hermes">
+      <datasource>
+         <driver>com.mysql.jdbc.Driver</driver>
+         <url>jdbc:mysql://localhost:3306/hermesdb</url>
+         <user></user>
+         <password></password>
+         <properties>useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true</properties>
+      </datasource>
+      <group name="hermes" package="com.ctrip.hermes.broker.dal.hermes">
+         <table name="message_priority"/>
+         <table name="offset_message"/>
+         <table name="resend_group_id"/>
+         <table name="offset_resend"/>
+         <table name="dead_letter"/>
+      </group>
+   </jdbc>
+</wizard>

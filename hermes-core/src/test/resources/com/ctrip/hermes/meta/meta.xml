@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<meta version='1'>
+	<topic name='topic.5' id='100' partition-count='2' storage-type='mysql' status='status' create-time='2012-12-12 00:00:00' last-modified-time='2012-12-12 00:00:00' schema-id='100' consumer-retry-policy="1:[3,6,9]" endpoint-type="broker" ack-timeout-seconds="3" priority-message-enabled="true" broker-group="hotel" idc-policy="local">
+		<consumer-group id='1' name="group0" app-ids="1,2" retry-policy="1:[3,6,9,15]" ack-timeout-seconds="4" ordered-consume="true" enabled="true" idc-policy="local"/>
+		<consumer-group id='2' name="group1" app-ids="3" retry-policy="2:[]" ordered-consume="false" enabled="true" idc-policy="primary"/>
+		<producer app-id="1" />
+		<producer app-id="2" />
+		<partition id='0' read-datasource='ds0' write-datasource='ds0' endpoint='br0' />
+		<partition id='1' read-datasource='ds1' write-datasource='ds1' endpoint='br0' />
+		<property name='retry-policy' value='interval:60,300,900' />
+		<property name='another' value='value' />
+	</topic>
+	<topic name='topic.6' idc-policy="primary" />
+	<topic name='kafka.SimpleTextTopic' partition-count='1' codec-type="json" endpoint-type="kafka">
+		<partition id='0' read-datasource='kafka-ds-read' write-datasource='kafka-ds-write' endpoint='kafka-endpoint1' />
+	</topic>
+	<topic name='kafka.SimpleAvroTopic' partition-count='1' codec-type="avro" endpoint-type="kafka">
+		<partition id='0' read-datasource='kafka-ds-read' write-datasource='kafka-ds-write' endpoint='kafka-endpoint1' />
+	</topic>
+	<topic name='kafka.OneBox' partition-count='1' codec-type="json" endpoint-type="kafka">
+		<partition id='0' read-datasource='kafka-ds-read' write-datasource='kafka-ds-write' endpoint='kafka-endpoint1' />
+	</topic>
+
+	<app id='1' />
+	<app id='2' />
+
+	<codec type="json" />
+	<codec type="avro">
+		<property name="schema.registry.url" value="http://localhost:8081" />
+		<property name="k" value="v" />
+	</codec>
+
+	<endpoint id='br0' type="broker" host="1.1.1.1" port="4376" group="hotel" idc="A" enabled="true" />
+	<endpoint id='br1' type="broker" host="1.1.1.1" port="4376" group="default" idc="B" enabled="true" />
+	<endpoint id='local' type="local" idc="A" enabled="true" />
+	<endpoint id='kafka-endpoint1' type="kafka" idc="A" enabled="true" />
+
+	<idc id="A" primary="true" enabled="true" />
+	<idc id="A" primary="false" enabled="true" />
+
+	<server id="s1" host="1.1.1.1" port="8080" enabled="true" idc="A" />
+	<server id="s2" host="1.1.1.2" port="8080" enabled="true" idc="B" />
+
+
+	<storage type='memory' default='true'>
+	</storage>
+	<storage type='file'>
+		<property name='base-path' value='/data/mq' />
+	</storage>
+
+	<storage type='mysql'>
+		<property name="x" value="x" />
+		<property name="x" value="x" />
+		<datasource id='ds0'>
+			<property name='url' value='jdbc:mysql://localhost:3306/hermes/' />
+			<property name='user' value='' />
+			<property name='password' value='' />
+		</datasource>
+		<datasource id='ds1'>
+			<property name='url' value='jdbc:mysql://1.1.1.1/hermes/' />
+		</datasource>
+	</storage>
+	<storage type='kafka'>
+		<datasource id='kafka-ds-read'>
+			<property name='zookeeper.connect' value='' />
+			<property name='bootstrap.servers' value='' />
+		</datasource>
+		<datasource id='kafka-ds-write'>
+			<property name='bootstrap.servers' value='' />
+			<property name='request.required.acks' value='1' />
+		</datasource>
+	</storage>
+	<zookeeper-ensemble id="z1" idc="A" connection-string="127.0.0.1:2181" primary="true" />
+	<zookeeper-ensemble id="z2" idc="B" connection-string="127.0.0.1:2182" primary="false" />
+</meta>

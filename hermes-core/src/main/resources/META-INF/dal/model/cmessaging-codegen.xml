@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model>
+  <entity name="cmessaging" root="true">
+    <attribute name="version" value-type="int" />
+    <entity-ref name="exchange" type="list" names="exchanges" />
+  </entity>
+  <entity name="exchange">
+    <attribute name="name" value-type="String" />
+    <attribute name="hermes-topic" value-type="String" />
+    <entity-ref name="produce" />
+    <entity-ref name="consume" />
+  </entity>
+  <entity name="produce">
+    <attribute name="state" value-type="String" />
+    <entity-ref name="produce-group" type="list" names="produce-groups" />
+  </entity>
+  <entity name="produce-group">
+    <attribute name="id" value-type="String" />
+    <attribute name="state" value-type="String" />
+    <entity-ref name="node" type="list" names="nodes" />
+  </entity>
+  <entity name="node">
+    <attribute name="ip" value-type="String" />
+  </entity>
+  <entity name="consume">
+    <attribute name="state" value-type="String" />
+    <entity-ref name="consume-group" type="list" names="consume-groups" />
+  </entity>
+  <entity name="consume-group">
+    <attribute name="id" value-type="String" />
+    <attribute name="state" value-type="String" />
+    <attribute name="hermes-consumer-group" value-type="String" />
+    <entity-ref name="node" type="list" names="nodes" />
+  </entity>
+</model>
+

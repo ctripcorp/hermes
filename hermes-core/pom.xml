@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.ctrip.hermes</groupId>
+		<artifactId>hermes</artifactId>
+		<version>0.8.2</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>hermes-core</artifactId>
+	<name>Hermes Core</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.ctrip.hermes</groupId>
+			<artifactId>hermes-env-provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ctrip.hermes</groupId>
+			<artifactId>hermes-env</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ctrip.framework</groupId>
+			<artifactId>vi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.dianping.cat</groupId>
+			<artifactId>cat-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<!--for Lease.class: JsonIgnore -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<!-- avro -->
+		<dependency>
+			<groupId>io.confluent</groupId>
+			<artifactId>kafka-avro-serializer</artifactId>
+		</dependency>
+		<!--netty -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.unidal.framework</groupId>
+			<artifactId>test-framework</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.unidal.maven.plugins</groupId>
+				<artifactId>plexus-maven-plugin</artifactId>
+				<version>2.2.0</version>
+				<executions>
+					<execution>
+						<id>generate plexus component descriptor</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>plexus</goal>
+						</goals>
+						<configuration>
+							<className>com.ctrip.hermes.core.build.ComponentsConfigurator</className>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.unidal.maven.plugins</groupId>
+				<artifactId>codegen-maven-plugin</artifactId>
+				<version>2.2.2</version>
+				<executions>
+					<execution>
+						<id>generate dal model files</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>dal-model</goal>
+						</goals>
+						<configuration>
+							<manifest><![CDATA[
+                        ${basedir}/src/main/resources/META-INF/dal/model/meta-manifest.xml,
+                        ${basedir}/src/main/resources/META-INF/dal/model/cmessaging-manifest.xml
+                     ]]></manifest>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+

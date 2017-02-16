@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wizard package="com.ctrip.hermes.broker">
+   <webapp package="com.ctrip.hermes.broker" name="broker" module="false" webres="false" cat="true" plugin-management="false" jstl="true" layout="bootstrap">
+      <module name="console" path="console" default="true">
+         <page name="home" title="Home" default="true" path="home" template="default">
+            <description>Home</description>
+         </page>
+      </module>
+   </webapp>
+</wizard>

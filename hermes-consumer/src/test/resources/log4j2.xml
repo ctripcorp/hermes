@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+	<Appenders>
+		<Async name="ASYNC">
+			<!-- <AppenderRef ref="FILE" /> -->
+			<AppenderRef ref="CONSOLE" /> 
+		</Async>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d %-5p [%t] %c{1.} - %m%n" />
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.mchange.v2" level="INFO">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="org.apache.http" level="WARN">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="io.netty" level="INFO">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="org.apache.zookeeper" level="WARN">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Root level="INFO">
+			<Appender-ref ref="ASYNC" />
+		</Root>
+	</Loggers>
+
+</Configuration>  

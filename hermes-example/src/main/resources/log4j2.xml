@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration>
+	<Appenders>
+		<Async name="ASYNC">
+			<AppenderRef ref="FILE" /> 
+			<!-- <AppenderRef ref="CONSOLE" /> --> 
+		</Async>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d %-5p [%t] %c{1.} - %m%n" />
+		</Console>
+
+		<RollingFile name="BIZ" fileName="/opt/logs/hermes-broker/biz.log"
+			filePattern="/opt/logs/hermes-broker/biz-%i.log.gz">
+			<PatternLayout pattern="%m%n" />
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<DefaultRolloverStrategy max="10" />
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="biz" level="INFO" additivity="false">
+			<Appender-ref ref="BIZ" />
+		</Logger>
+
+		<Logger name="com.mchange.v2" level="INFO" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="org.apache.http" level="INFO" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="io.netty" level="INFO" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger
+			name="com.ctrip.hermes.core.transport.endpoint.DefaultServerChannelInboundHandler"
+			level="ERROR" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Logger name="org.apache.zookeeper" level="WARN" additivity="false">
+			<Appender-ref ref="ASYNC" />
+		</Logger>
+
+		<Root level="info">
+			<Appender-ref ref="ASYNC" />
+		</Root>
+	</Loggers>
+
+</Configuration>  

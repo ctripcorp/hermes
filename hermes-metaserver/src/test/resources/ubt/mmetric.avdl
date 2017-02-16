@@ -1,0 +1,33 @@
+@namespace("com.ctrip.bf.mechanic.domain.entity")
+protocol UBT {
+@namespace("com.ctrip.bf.mechanic.domain.entity")
+record Meta {
+	string id;
+	long deliveryTimestamp;
+	long receiveTimestamp;
+	string instance;
+	string domain;
+	string entity;
+	int version;
+}
+
+@namespace("com.ctrip.bf.mechanic.domain.entity")
+record MMetric {
+	map<union{null,int,long,float,double,string,boolean,map<union{int,long,float,double,string,boolean}>}> meta;
+	union{null,string} appId;
+	union{null,string} clientCode;
+	union{null,string} vid;
+	union{null,int} sid;
+	union{null,int} pvid;
+	long ts;
+	union{null,string} page;
+	union{null,string} name;
+	union{null,string} value;
+	union{null,map<string>} tags;
+	map<union{null,int,long,float,double,string,boolean,map<union{int,long,float,double,string,boolean}>}> env;
+	union{null,string} seq;
+	union{null,string} clientIp;
+	Meta __meta__;
+}
+
+}

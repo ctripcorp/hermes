@@ -1,0 +1,35 @@
+{"namespace": "com.ctrip.bf.mechanic.domain.entity",
+ "type": "record",
+ "name": "MMetric",
+ "fields": [
+ 	{"name": "meta", "type": [{"type": "map", "values": ["int","long","float","double","string","boolean",{"type":"map","values":["int","long","float","double","string","boolean"]}]}, "null"]},
+ 	{"name": "appId", "type": ["string", "null"]},
+ 	{"name": "clientCode", "type": ["string", "null"]},
+ 	{"name": "vid", "type": ["string", "null"]},
+ 	{"name": "sid", "type": ["int", "null"]},
+ 	{"name": "pvid", "type": ["int", "null"]},
+ 	{"name": "ts", "type": "long"},
+ 	{"name": "page", "type": ["string", "null"]},
+ 	{"name": "name", "type": ["string", "null"]},
+ 	{"name": "value", "type": ["double", "null"]}, 	 	
+ 	{"name": "tags", "type": [{"type": "map", "values": "string"}, "null"]},
+ 	{"name": "env", "type": [{"type": "map", "values": ["int","long","float","double","string","boolean",{"type":"map","values":["int","long","float","double","string","boolean"]}]}, "null"]},
+ 	{"name": "seq", "type": ["long", "null"]},
+ 	{"name": "clientIp", "type": ["string", "null"]}, 	
+ 	{"name": "__meta__", "type": {"namespace": "com.ctrip.bf.mechanic.domain.entity",
+		 "type": "record",
+		 "name": "Meta",
+		 "fields": [
+		 	{"name": "id", "type": "string"},
+		 	{"name": "deliveryTimestamp", "type": "long"},
+		 	{"name": "receiveTimestamp", "type": "long"},
+		 	{"name": "instance", "type": "string"},
+		 	{"name": "domain", "type": "string"},
+		 	{"name": "entity", "type": "string"},
+		 	{"name": "version", "type": "int"}
+		 ]	
+		}
+	}
+ ]
+
+}

@@ -1,0 +1,9 @@
+{"namespace": "com.ctrip.hermes.meta.avro",
+ "type": "record",
+ "name": "AvroVisitEvent",
+ "fields": [
+     {"name": "ip", "type": "string"},
+     {"name": "url", "type": "string"},
+     {"name": "tz", "type": "long123", "java-class":"java.util.Date"}
+ ]
+}

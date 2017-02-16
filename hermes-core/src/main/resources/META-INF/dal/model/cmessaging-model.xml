@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model model-package="com.ctrip.hermes.cmessaging"
+	enable-sax-parser="true">
+	<entity name="cmessaging">
+		<attribute name="version" value-type="long" primitive="true" />
+		<entity-ref name="exchange" type="map" />
+	</entity>
+	<entity name="exchange">
+		<attribute name="name" key="true" />
+	</entity>
+	<entity name="produce">
+		<entity-ref name="produce-group" type="map" />
+		<snippet lang="java">
+		<![CDATA[
+			public final static String CLOSE = "close"; 
+			public final static String GRAY = "gray"; 
+			public final static String OPEN = "open"; 
+		]]>
+		</snippet>
+	</entity>
+	<entity name="consume">
+		<entity-ref name="consume-group" type="map" />
+		<snippet lang="java">
+		<![CDATA[
+			public final static String CLOSE = "close"; 
+			public final static String GRAY = "gray"; 
+			public final static String BOTH_OPEN = "bothopen"; 
+			public final static String HERMES_ONLY = "hermesonly"; 
+		]]>
+		</snippet>
+	</entity>
+	<entity name="produce-group">
+		<attribute name="id" key="true" />
+		<entity-ref name="node" type="map" />
+	</entity>
+	<entity name="consume-group">
+		<attribute name="id" key="true" />
+		<entity-ref name="node" type="map" />
+	</entity>
+	<entity name="node">
+		<attribute name="ip" key="true" />
+	</entity>
+</model>
+

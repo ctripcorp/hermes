@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<meta dev-mode='false' version='1'>
+
+	<endpoint id='br0' type="broker" host="127.0.0.1" port="4376" />
+
+	<topic name='t1' id='1' partition-count='2' storage-type='test' codec-type="json" consumer-retry-policy="1:[2,4,6]"
+		endpoint-type="broker" ack-timeout-seconds="5">
+		<consumer-group id='1' name="g1" app-ids="1" retry-policy="1:[3,6,9,15]" ack-timeout-seconds="5"
+			ordered-consume="true" />
+		<consumer-group id='2' name="g2" app-ids="2" retry-policy="1:[5,10]" ack-timeout-seconds="6"
+			ordered-consume="false" />
+		<partition id='0' endpoint='br0' />
+		<partition id='1' endpoint='br0' />
+	</topic>
+	<topic name='t2' id='1' partition-count='2' storage-type='test' codec-type="json" consumer-retry-policy="1:[2,4,6]"
+		endpoint-type="broker" ack-timeout-seconds="5">
+		<consumer-group id='1' name="g1" app-ids="1" retry-policy="1:[3,6,9,15]" ack-timeout-seconds="5"
+			ordered-consume="false" />
+		<consumer-group id='2' name="g2" app-ids="2" retry-policy="1:[5,10]" ack-timeout-seconds="6"
+			ordered-consume="true" />
+		<consumer-group id='3' name="group3" app-ids="3" />
+		<partition id='0' endpoint='br0' />
+		<partition id='1' endpoint='br0' />
+	</topic>
+
+</meta>

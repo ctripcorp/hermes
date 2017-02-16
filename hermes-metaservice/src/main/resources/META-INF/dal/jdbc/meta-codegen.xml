@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities>
+  <entity name="broker-lease" table="broker_lease" alias="bl">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="topic" field="topic" value-type="String" length="250" nullable="false" />
+    <member name="partition" field="partition" value-type="int" length="10" nullable="false" />
+    <member name="leases" field="leases" value-type="String" length="20000" />
+    <member name="metaserver" field="metaserver" value-type="String" length="15" nullable="false" />
+    <member name="data-change-last-time" field="DataChange_LastTime" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="topic_partition" unique="true" members="topic ASC, partition ASC" />
+    <index name="DataChange_LastTime" members="DataChange_LastTime ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>)
+        VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/>
+        SET <FIELDS/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="consumer-lease" table="consumer_lease" alias="cl">
+    <member name="id" field="id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="topic" field="topic" value-type="String" length="250" nullable="false" />
+    <member name="partition" field="partition" value-type="int" length="10" nullable="false" />
+    <member name="group" field="group" value-type="String" length="250" />
+    <member name="leases" field="leases" value-type="String" length="20000" />
+    <member name="metaserver" field="metaserver" value-type="String" length="15" nullable="false" />
+    <member name="data-change-last-time" field="DataChange_LastTime" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="topic_partition_group" unique="true" members="topic ASC, partition ASC, group ASC" />
+    <index name="DataChange_LastTime" members="DataChange_LastTime ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>)
+        VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/>
+        SET <FIELDS/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="meta" table="meta" alias="m">
+    <member name="id" field="id" value-type="long" length="19" nullable="false" key="true" auto-increment="true" />
+    <member name="value" field="value" value-type="String" length="65535" nullable="false" />
+    <member name="version" field="version" value-type="long" length="19" />
+    <member name="data-change-last-time" field="DataChange_LastTime" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>)
+        VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/>
+        SET <FIELDS/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="zookeeper-ensemble" table="zookeeper_ensemble" alias="ze">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="name" field="name" value-type="String" length="128" nullable="false" />
+    <member name="connection-string" field="connection_string" value-type="String" length="2048" nullable="false" />
+    <member name="idc" field="idc" value-type="String" length="50" nullable="false" />
+    <member name="primary" field="primary" value-type="boolean" nullable="false" />
+    <member name="data-change-last-time" field="DataChange_LastTime" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="DataChange_LastTime" members="DataChange_LastTime ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/>
+        FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>)
+        VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/>
+        SET <FIELDS/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/>
+        WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+</entities>
+

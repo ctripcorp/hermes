@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee">
+	<listener>
+		<display-name>cat-listener</display-name>
+		<listener-class>com.dianping.cat.servlet.CatListener</listener-class>
+	</listener>
+	<listener>
+		<display-name>broker-bootstrap-listener</display-name>
+		<listener-class>com.ctrip.hermes.broker.bootstrap.BrokerBootstrapListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>metrics</servlet-name>
+		<servlet-class>com.ctrip.hermes.metrics.HermesServlet</servlet-class>
+		<init-param>
+			<param-name>show-jvm-metrics</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>metrics</servlet-name>
+		<url-pattern>/metrics/*</url-pattern>
+	</servlet-mapping>
+</web-app>

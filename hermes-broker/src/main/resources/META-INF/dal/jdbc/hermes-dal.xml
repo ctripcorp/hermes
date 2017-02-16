@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities do-package="com.ctrip.hermes.broker.dal.hermes" gen="true">
+	<entity name="message-priority"
+		implements="com.ctrip.hermes.broker.queue.storage.mysql.dal.TopicPartitionPriorityAware, com.ctrip.hermes.broker.queue.storage.mysql.dal.IdAware">
+		<member name="payload" field="payload" value-type="java.io.InputStream" />
+		<var name="topic" value-type="String" />
+		<var name="partition" value-type="int" />
+		<var name="priority" value-type="int" />
+		<var name="start-id" value-type="long" />
+		<var name="batch-size" value-type="int" />
+		<var name="offsets" value-type="Long[]" />
+		<readsets>
+			<readset name="OFFSET" all="false">
+				<member name="id" />
+				<member name="creation-date" />
+			</readset>
+		</readsets>
+		<query-defs>
+			<query name="insert" type="INSERT" batch='true'>
+				<statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>)
+        		VALUES(<VALUES/>)]]>
+				</statement>
+			</query>
+			<!-- Don't rename -->
+			<query name="findIdAfter" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<param name="start-id" />
+				<param name="batch-size" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='id'/> > ${start-id}
+        		LIMIT ${batch-size}]]>
+				</statement>
+			</query>
+			<query name="find-with-offsets" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<param name="offsets" />
+				<statement><![CDATA[
+				SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='id'/> IN <IN>${offsets}</IN>
+        		]]>
+				</statement>
+			</query>
+			<query name="top" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		ORDER BY <FIELD name='id'/> DESC
+        		LIMIT 1]]>
+				</statement>
+			</query>
+			<query name="find-latest-offset" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<statement><![CDATA[
+				SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		ORDER BY <FIELD name='id'/> DESC
+        		LIMIT 1
+        		]]>
+				</statement>
+			</query>
+			<query name="find-oldest-offset" type="SELECT" multiple="false">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<statement><![CDATA[
+				SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		ORDER BY <FIELD name='id'/> ASC
+        		LIMIT 1
+        		]]>
+				</statement>
+			</query>
+			<query name="find-offset-greater-or-equal" type="SELECT" multiple="false">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<param name="id" />
+				<statement><![CDATA[
+				SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='id'/> >= ${id}
+        		ORDER BY <FIELD name='id'/> ASC
+        		LIMIT 1
+        		]]>
+				</statement>
+			</query>
+			<query name="find-offset-less-or-equal" type="SELECT" multiple="false">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<param name="id" />
+				<statement><![CDATA[
+				SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='id'/> <= ${id}
+        		ORDER BY <FIELD name='id'/> DESC
+        		LIMIT 1
+        		]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+
+	<entity name="offset-message" implements="com.ctrip.hermes.broker.queue.storage.mysql.dal.TopicPartitionPriorityAware">
+		<var name="partition" value-type="int" />
+		<var name="topic" value-type="String" />
+		<updatesets>
+			<updateset name="OFFSET">
+				<member name='offset' />
+			</updateset>
+		</updatesets>
+		<query-defs>
+			<query name="find" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<param name="group-id" />
+
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='priority'/> = ${priority}
+        		AND <FIELD name='group-id'/> = ${group-id}]]>
+				</statement>
+			</query>
+			<query name="increase-offset" type="UPDATE">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="id" />
+				<param name="offset" />
+				<statement><![CDATA[UPDATE <TABLE/>
+			        SET <FIELDS/>
+			        WHERE <FIELD name='id'/> = ${id} AND <FIELD name='offset'/> < ${offset}]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+
+	<entity name="resend-group-id" implements="com.ctrip.hermes.broker.queue.storage.mysql.dal.TopicPartitionPriorityGroupAware">
+		<member name="payload" field="payload" value-type="java.io.InputStream" />
+		<relation name="message-priority" entity-name="message-priority" entity-alias="mp" />
+
+		<var name="topic" value-type="String" />
+		<var name="partition" value-type="int" />
+		<var name="group-id" value-type="int" />
+		<var name="batch-size" value-type="int" />
+		<var name="message-ids" value-type="Long[]" />
+		<var name="last-id" value-type="long" />
+		<var name="max-id" value-type="long" />
+		<var name="max-schedule-date" value-type="Date" />
+		<var name="pks" value-type="Long[]" />
+
+		<readsets>
+			<readset name="ID" all="false">
+				<member name="id" />
+			</readset>
+			<readset name="SCHEDULE_DATE" all="false">
+				<member name="schedule_date" />
+			</readset>
+		</readsets>
+
+		<query-defs>
+			<query name="insert" type="INSERT" batch='true'>
+				<statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>)
+        		VALUES(<VALUES/>)]]>
+				</statement>
+			</query>
+			<query name="findMaxDuedScheduleDate" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="group-id" />
+				<param name="max-schedule-date" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='schedule-date'/> <= ${max-schedule-date}
+        		ORDER BY <FIELD name='schedule-date'/> DESC
+        		LIMIT 1]]>
+				</statement>
+			</query>
+			<query name="topId" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="group-id" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		ORDER BY <FIELD name='id'/> DESC
+        		LIMIT 1]]>
+				</statement>
+			</query>
+			<query name="findMaxIdByScheduleDate" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="group-id" />
+				<param name="schedule-date" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='schedule-date'/> = ${schedule-date}
+        		ORDER BY <FIELD name='id'/> DESC
+        		LIMIT 1]]>
+				</statement>
+			</query>
+			<query name="find" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="group-id" />
+				<param name="batch-size" />
+				<param name="last-id" />
+				<param name="max-id" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='id'/> > ${last-id} 
+        		AND <FIELD name='id'/> <= ${max-id}
+        		ORDER BY <FIELD name='id'/> ASC
+        		LIMIT ${batch-size}]]>
+				</statement>
+			</query>
+			<query name="copyFromMessageTable" type="INSERT">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<param name="group-id" />
+				<param name="schedule-date" />
+				<param name="message-ids" />
+				<param name="remaining-retries" />
+				<statement><![CDATA[INSERT INTO <TABLE/> 
+					  (producer_ip,producer_id,ref_key,attributes,codec_type,creation_date,payload,schedule_date,remaining_retries,priority,origin_id) 
+        		SELECT producer_ip,producer_id,ref_key,attributes,codec_type,creation_date,payload,${schedule-date},${remaining-retries},${priority},id
+        		FROM <TABLE name="message-priority"/>
+        		WHERE id IN <IN>${message-ids}</IN>]]>
+				</statement>
+			</query>
+			<query name="find-by-PKs" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="group-id" />
+				<param name="pks" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        				FROM <TABLE/>
+        				WHERE <FIELD name='id'/> IN <IN>${pks}</IN>]]>
+				</statement>
+			</query>
+			<query name="find-by-PK" type="SELECT">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="group-id" />
+				<param name="key-id" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+
+	<entity name="offset-resend" alias="ore" implements="com.ctrip.hermes.broker.queue.storage.mysql.dal.TopicPartitionAware">
+		<var name="topic" value-type="String" />
+		<var name="partition" value-type="int" />
+
+		<updatesets>
+			<updateset name="OFFSET">
+				<member name='last-schedule-date' />
+				<member name='last-id' />
+			</updateset>
+		</updatesets>
+
+		<query-defs>
+			<query name="top" type="SELECT" multiple="true">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="group-id" />
+				<statement><![CDATA[SELECT <FIELDS/>
+        		FROM <TABLE/>
+        		WHERE <FIELD name='group-id'/> = ${group-id}
+        		]]>
+				</statement>
+			</query>
+			<query name="increase-offset" type="UPDATE">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="id" />
+				<param name="last-id" />
+				<statement><![CDATA[UPDATE <TABLE/>
+			        SET <FIELDS/>
+			        WHERE <FIELD name='id'/> = ${id}
+	        		AND <FIELD name='last-id'/> < ${last-id}
+	        		]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+
+	<entity name="dead-letter" implements="com.ctrip.hermes.broker.queue.storage.mysql.dal.TopicPartitionPriorityGroupAware">
+		<member name="payload" field="payload" value-type="java.io.InputStream" />
+		<relation name="message-priority" entity-name="message-priority" entity-alias="mp" />
+		<relation name="resend-group-id" entity-name="resend-group-id" entity-alias="rgi" />
+		<var name="topic" value-type="String" />
+		<var name="partition" value-type="int" />
+		<var name="message-ids" value-type="Long[]" />
+
+		<query-defs>
+			<query name="copyFromMessageTable" type="INSERT">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<param name="group-id" />
+				<param name="dead-date" />
+				<param name="message-ids" />
+				<statement><![CDATA[INSERT INTO <TABLE/> 
+					(producer_ip,producer_id,ref_key,attributes,codec_type,creation_date,payload,dead_date,group_id,priority,origin_id) 
+        		SELECT producer_ip,producer_id,ref_key,attributes,codec_type,creation_date,payload,${dead-date},${group-id},${priority},id
+        		FROM <TABLE name="message-priority"/>
+        		WHERE id IN <IN>${message-ids}</IN>]]>
+				</statement>
+			</query>
+			<query name="copyFromResendTable" type="INSERT">
+				<param name="topic" />
+				<param name="partition" />
+				<param name="priority" />
+				<param name="group-id" />
+				<param name="dead-date" />
+				<param name="message-ids" />
+				<statement><![CDATA[INSERT INTO <TABLE/> 
+					(producer_ip,producer_id,ref_key,attributes,codec_type,creation_date,payload,dead_date,group_id,priority,origin_id) 
+        		SELECT producer_ip,producer_id,ref_key,attributes,codec_type,creation_date,payload,${dead-date},${group-id},${priority},origin_id
+        		FROM <TABLE name="resend-group-id"/>
+        		WHERE id IN <IN>${message-ids}</IN>]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+
+
+</entities>
+

@@ -1,0 +1,8 @@
+<topic name="order.new">
+	<partition id='1' offset='100' />
+	<partition id='2' offset='90' />
+	<consumer group-id='group1'>
+		<partition id='1' offset='50' />
+		<partition id='2' offset='90' />
+	</consumer>
+</topic>

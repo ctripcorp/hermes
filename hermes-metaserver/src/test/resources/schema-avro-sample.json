@@ -1,0 +1,6 @@
+{
+  "name" : "sample_avro",
+  "type" : "avro",
+  "description" : "sample json description",
+  "compatibility" : "FORWARD"
+}
