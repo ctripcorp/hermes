@@ -120,6 +120,21 @@ public class ClusterStateHolder implements Initializable {
 			m_roleLock.writeLock().unlock();
 		}
 	}
+	
+	public void giveupLeaderShip() {
+		m_roleLock.writeLock().lock();
+		try {
+			log.info("Give up Leadership!!!");
+			Cat.logEvent(CatConstants.TYPE_ROLE_CHANGED, "Follower");
+			m_role = Role.FOLLOWER;
+			long newVersion = m_guard.upgradeVersion();
+			closeLeaderLatch();
+			startLeaderLatch();
+			m_eventBus.pubEvent(new Event(EventType.FOLLOWER_INIT, newVersion, null));
+		} finally {
+			m_roleLock.writeLock().unlock();
+		}
+	}
 
 	private void startLeaderLatch() {
 		if (m_leaderLatch == null) {
