@@ -147,43 +147,48 @@ public class LeaderInitEventHandler extends BaseEventHandler {
 
 	@Override
 	protected void processEvent(Event event) throws Exception {
-		long version = event.getVersion();
-		addBaseMetaVersionListener(version);
+		try {
+			long version = event.getVersion();
+			addBaseMetaVersionListener(version);
 
-		Meta baseMeta = loadBaseMeta();
+			Meta baseMeta = loadBaseMeta();
 
-		Server server = getCurServerAndFixStatusByIDC(baseMeta);
+			Server server = getCurServerAndFixStatusByIDC(baseMeta);
 
-		if (server == null || !server.isEnabled()) {
-			log.info("Marked down!");
-			m_clusterStateHolder.becomeObserver();
-			return;
+			if (server == null || !server.isEnabled()) {
+				log.info("Marked down!");
+				m_clusterStateHolder.becomeObserver();
+				return;
+			}
+
+			ArrayList<Topic> topics = new ArrayList<>(baseMeta.getTopics().values());
+			List<Server> configedMetaServers = baseMeta.getServers() == null ? new ArrayList<Server>()
+					: new ArrayList<Server>(baseMeta.getServers().values());
+			Map<String, Idc> idcs = baseMeta.getIdcs() == null ? new HashMap<String, Idc>() : new HashMap<String, Idc>(
+					baseMeta.getIdcs());
+
+			addMetaServerListListener(version);
+			List<Server> metaServers = loadMetaServerList();
+			Map<String, ClientContext> brokers = loadAndAddBrokerListListener(new BrokerListChangedListener(version));
+			List<Endpoint> configedBrokers = baseMeta.getEndpoints() == null ? new ArrayList<Endpoint>() : new ArrayList<>(
+					baseMeta.getEndpoints().values());
+
+			m_brokerAssignmentHolder.reassign(brokers, configedBrokers, topics, idcs);
+
+			Map<String, Map<Integer, Endpoint>> topicPartition2Endpoint = m_endpointMaker.makeEndpoints(m_eventBus,
+					event.getVersion(), m_clusterStateHolder, m_brokerAssignmentHolder.getAssignments(), false);
+
+			m_metaHolder.setIdcs(idcs);
+			m_metaHolder.setConfigedMetaServers(configedMetaServers);
+			m_metaHolder.setBaseMeta(baseMeta);
+			m_metaHolder.setMetaServers(metaServers);
+			m_metaHolder.update(topicPartition2Endpoint);
+
+			m_metaServerAssignmentHolder.reassign(metaServers, m_metaHolder.getConfigedMetaServers(), topics);
+		}catch (Exception e){
+			m_clusterStateHolder.giveupLeaderShip();
+			throw e;
 		}
-
-		ArrayList<Topic> topics = new ArrayList<>(baseMeta.getTopics().values());
-		List<Server> configedMetaServers = baseMeta.getServers() == null ? new ArrayList<Server>()
-		      : new ArrayList<Server>(baseMeta.getServers().values());
-		Map<String, Idc> idcs = baseMeta.getIdcs() == null ? new HashMap<String, Idc>() : new HashMap<String, Idc>(
-		      baseMeta.getIdcs());
-
-		addMetaServerListListener(version);
-		List<Server> metaServers = loadMetaServerList();
-		Map<String, ClientContext> brokers = loadAndAddBrokerListListener(new BrokerListChangedListener(version));
-		List<Endpoint> configedBrokers = baseMeta.getEndpoints() == null ? new ArrayList<Endpoint>() : new ArrayList<>(
-		      baseMeta.getEndpoints().values());
-
-		m_brokerAssignmentHolder.reassign(brokers, configedBrokers, topics, idcs);
-
-		Map<String, Map<Integer, Endpoint>> topicPartition2Endpoint = m_endpointMaker.makeEndpoints(m_eventBus,
-		      event.getVersion(), m_clusterStateHolder, m_brokerAssignmentHolder.getAssignments(), false);
-
-		m_metaHolder.setIdcs(idcs);
-		m_metaHolder.setConfigedMetaServers(configedMetaServers);
-		m_metaHolder.setBaseMeta(baseMeta);
-		m_metaHolder.setMetaServers(metaServers);
-		m_metaHolder.update(topicPartition2Endpoint);
-
-		m_metaServerAssignmentHolder.reassign(metaServers, m_metaHolder.getConfigedMetaServers(), topics);
 	}
 
 	protected void addBaseMetaVersionListener(long version) throws DalException {
